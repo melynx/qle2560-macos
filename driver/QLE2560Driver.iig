@@ -1,0 +1,69 @@
+// SPDX-License-Identifier: GPL-2.0-only
+#ifndef QLE2560Driver_h
+#define QLE2560Driver_h
+#include <SCSIControllerDriverKit/IOUserSCSIParallelInterfaceController.iig>
+#include <DriverKit/IOTimerDispatchSource.iig>
+#include <DriverKit/IOInterruptDispatchSource.iig>
+struct QLE2560Driver_IVars;
+class QLE2560Driver : public IOUserSCSIParallelInterfaceController {
+    QLE2560Driver_IVars *ivars;
+
+  public:
+    virtual bool init() override;
+    virtual void free() override;
+    virtual kern_return_t Start(IOService *provider) override;
+    virtual kern_return_t Stop(IOService *provider) override;
+    virtual kern_return_t SetPowerState(uint32_t powerFlags) override;
+    virtual kern_return_t UserInitializeController() override;
+    virtual kern_return_t UserStartController() override;
+    virtual kern_return_t UserReportHBAHighestLogicalUnitNumber(uint64_t *value) override;
+    virtual kern_return_t UserDoesHBASupportSCSIParallelFeature(uint32_t theValue,
+                                                                bool *result) override;
+    virtual kern_return_t UserInitializeTargetForID(SCSITargetIdentifier targetID) override;
+    virtual kern_return_t UserDoesHBAPerformAutoSense(bool *result) override;
+    virtual kern_return_t UserDoesHBASupportMultiPathing(bool *result) override;
+    virtual kern_return_t UserReportInitiatorIdentifier(uint64_t *id) override;
+    virtual kern_return_t UserReportHighestSupportedDeviceID(uint64_t *id) override;
+    virtual kern_return_t UserReportMaximumTaskCount(uint32_t *count) override;
+    virtual kern_return_t UserDoesHBAPerformDeviceManagement(bool *result) override;
+    virtual kern_return_t UserGetDMASpecification(uint64_t *maxTransferSize, uint32_t *alignment,
+                                                  uint8_t *numAddressBits,
+                                                  DMAOutputSegmentType *segmentType) override;
+    virtual kern_return_t UserMapHBAData(uint32_t *uniqueTaskID) override;
+    virtual kern_return_t UserProcessParallelTask(SCSIUserParallelTask parallelRequest,
+                                                  uint32_t *response,
+                                                  OSAction *completion) override;
+    virtual kern_return_t UserMapBundledParallelTaskCommandAndResponseBuffers(
+        IOBufferMemoryDescriptor *parallelCommandIOMemoryDescriptor,
+        IOBufferMemoryDescriptor *parallelResponseIOMemoryDescriptor) override;
+    virtual void UserProcessBundledParallelTasks(const uint16_t parallelRequestSlotIndices[32],
+                                                 uint16_t parallelRequestSlotIndicesCount,
+                                                 OSAction *completion) override;
+    virtual kern_return_t UserAbortTaskRequest(uint64_t theT, uint64_t theL, uint64_t theQ,
+                                               uint32_t *response) override;
+    virtual kern_return_t UserAbortTaskSetRequest(uint64_t theT, uint64_t theL,
+                                                  uint32_t *response) override;
+    virtual kern_return_t UserClearACARequest(uint64_t theT, uint64_t theL,
+                                              uint32_t *response) override;
+    virtual kern_return_t UserClearTaskSetRequest(uint64_t theT, uint64_t theL,
+                                                  uint32_t *response) override;
+    virtual kern_return_t UserLogicalUnitResetRequest(uint64_t theT, uint64_t theL,
+                                                      uint32_t *response) override;
+    virtual kern_return_t UserTargetResetRequest(uint64_t theT, uint32_t *response) override;
+    virtual void Tick(OSAction *action, uint64_t time) TYPE(IOTimerDispatchSource::TimerOccurred);
+    virtual void Interrupt(OSAction *action, uint64_t count, uint64_t time)
+        TYPE(IOInterruptDispatchSource::InterruptOccurred);
+    void CancelSources() LOCALONLY;
+    void FinishStop() LOCALONLY;
+    void Service() LOCALONLY;
+    void AdvanceShutdown() LOCALONLY;
+    void FinishShutdown(bool clean) LOCALONLY;
+    void Complete(unsigned slot) LOCALONLY;
+    void CompleteLocal(SCSIUserParallelTask request, OSAction *action, uint8_t status) LOCALONLY;
+    bool Quiesce(uint8_t status) LOCALONLY;
+    void Schedule() LOCALONLY;
+    void Publish(bool present) LOCALONLY;
+    kern_return_t Manage(uint64_t target, uint64_t lun, uint32_t flags,
+                         uint32_t *response) LOCALONLY;
+};
+#endif

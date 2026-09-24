@@ -1,0 +1,3 @@
+linux-firmware commit: d962a6a309b78778f458dc94713845eee105be14
+Tag: 20260519
+Source: https://kernel.googlesource.com/pub/scm/linux/kernel/git/firmware/linux-firmware/+/d962a6a309b78778f458dc94713845eee105be14

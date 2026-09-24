@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>QLE2560 Driver</string>
+	<key>CFBundleDisplayName</key>
+	<string>QLE2560 Driver</string>
+	<key>CFBundlePackageType</key>
+	<string>DEXT</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.19.0</string>
+	<key>CFBundleVersion</key>
+	<string>19</string>
+	<key>IOKitPersonalities</key>
+	<dict>
+		<key>QLE2560Driver</key>
+		<dict>
+			<key>CFBundleIdentifierKernel</key>
+			<string>com.apple.iokit.IOSCSIParallelFamily</string>
+			<key>IOClass</key>
+			<string>IOUserSCSIParallelInterfaceController</string>
+			<key>IOPCIPrimaryMatch</key>
+			<string>0x25321077</string>
+			<key>IOPCISecondaryMatch</key>
+			<string>0x015c1077</string>
+			<key>IOPCITunnelCompatible</key>
+			<true/>
+			<key>IOProviderClass</key>
+			<string>IOPCIDevice</string>
+			<key>QLE2560ShutdownTesting</key>
+			<string>$(QLE_SHUTDOWN_TESTING)</string>
+			<key>QLE2560ControlVersion</key>
+			<integer>2</integer>
+			<key>IOUserClass</key>
+			<string>QLE2560Driver</string>
+			<key>IOUserServerName</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>Protocol Characteristics</key>
+			<dict>
+				<key>Physical Interconnect</key>
+				<string>Fibre Channel Interface</string>
+				<key>Physical Interconnect Location</key>
+				<string>External</string>
+				<key>SCSI Domain Identifier</key>
+				<integer>0</integer>
+				<key>SCSI Initiator Identifier</key>
+				<integer>1</integer>
+			</dict>
+		</dict>
+	</dict>
+	<key>OSBundleUsageDescription</key>
+	<string>Connect Fibre Channel tape drives through a QLogic QLE2560 adapter.</string>
+</dict>
+</plist>

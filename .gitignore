@@ -1,0 +1,16 @@
+/build/
+/DerivedData/
+/generated/
+/evidence/
+*.xcuserstate
+xcuserdata/
+.DS_Store
+*.mobileprovision
+*.provisionprofile
+*.p12
+*.p8
+/docs/*
+!/docs/tape-usage.md
+!/docs/limitations.md
+/references/*
+!/references/upstream/
